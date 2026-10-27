@@ -25,8 +25,8 @@
     <td align="center"><b>2. Receive Unknown Call</b></td>
   </tr>
   <tr>
-    <td><img src="https://placehold.co/300x600/f3e5f5/4a148c?text=Set+Global+Name%0A%0A%5B+RingName+User+%5D%0A%0A(Save)" alt="Home Screen" width="250"/></td>
-    <td><img src="https://placehold.co/300x600/4a148c/ffffff?text=Incoming+Call...%0A%0ARingName+User%0A%0A(Accept)/(Decline)" alt="Incoming Call Screen" width="250"/></td>
+    <td><img src="assets/screenshots/home_screen.png" alt="Home Screen" width="250"/></td>
+    <td><img src="assets/screenshots/incoming_call.png" alt="Incoming Call Screen" width="250"/></td>
   </tr>
 </table>
 
