@@ -29,6 +29,51 @@ class HomeView extends StatelessWidget {
                 color: Colors.deepPurple,
               ),
               const SizedBox(height: 32),
+              Obx(() => controller.hasAllPermissions.value
+                  ? const SizedBox.shrink()
+                  : Container(
+                      padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.only(bottom: 24),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.shade100,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.orange.shade300),
+                      ),
+                      child: Column(
+                        children: [
+                          const Row(
+                            children: [
+                              Icon(Icons.warning_amber_rounded, color: Colors.deepOrange),
+                              SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  'Missing Permissions',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.deepOrange,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'RingName needs Phone, Contacts, and "Display over other apps" permissions to work.',
+                            style: TextStyle(color: Colors.deepOrange),
+                          ),
+                          const SizedBox(height: 12),
+                          ElevatedButton(
+                            onPressed: controller.openSettings,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.orange,
+                              foregroundColor: Colors.white,
+                              elevation: 0,
+                            ),
+                            child: const Text('Open Settings'),
+                          )
+                        ],
+                      ),
+                    )),
               const Text(
                 'Set Global Caller Name',
                 style: TextStyle(

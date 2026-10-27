@@ -4,15 +4,31 @@ import 'package:permission_handler/permission_handler.dart';
 import '../../../../data/local/providers/preferences_helper.dart';
 import '../../../../core/utils/native_bridge.dart';
 
-class HomeController extends GetxController {
+class HomeController extends GetxController with WidgetsBindingObserver {
   final nameController = TextEditingController();
   final isSaving = false.obs;
+  final hasAllPermissions = false.obs;
 
   @override
   void onInit() {
     super.onInit();
+    WidgetsBinding.instance.addObserver(this);
     _loadCurrentGlobalName();
     _requestPermissions();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      checkPermissions();
+    }
+  }
+
+  Future<void> checkPermissions() async {
+    final phone = await Permission.phone.isGranted;
+    final contacts = await Permission.contacts.isGranted;
+    final overlay = await Permission.systemAlertWindow.isGranted;
+    hasAllPermissions.value = phone && contacts && overlay;
   }
 
   Future<void> _requestPermissions() async {
@@ -26,6 +42,12 @@ class HomeController extends GetxController {
     if (await Permission.systemAlertWindow.isDenied) {
       await Permission.systemAlertWindow.request();
     }
+    
+    await checkPermissions();
+  }
+
+  void openSettings() {
+    openAppSettings();
   }
 
   Future<void> _loadCurrentGlobalName() async {
@@ -67,6 +89,7 @@ class HomeController extends GetxController {
 
   @override
   void onClose() {
+    WidgetsBinding.instance.removeObserver(this);
     nameController.dispose();
     super.onClose();
   }
