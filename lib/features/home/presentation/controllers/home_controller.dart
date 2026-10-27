@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../../../../data/local/providers/preferences_helper.dart';
 import '../../../../core/utils/native_bridge.dart';
 
@@ -11,6 +12,20 @@ class HomeController extends GetxController {
   void onInit() {
     super.onInit();
     _loadCurrentGlobalName();
+    _requestPermissions();
+  }
+
+  Future<void> _requestPermissions() async {
+    // Request standard permissions
+    await [
+      Permission.phone,
+      Permission.contacts,
+    ].request();
+
+    // System Alert Window often requires a separate intent prompt
+    if (await Permission.systemAlertWindow.isDenied) {
+      await Permission.systemAlertWindow.request();
+    }
   }
 
   Future<void> _loadCurrentGlobalName() async {
