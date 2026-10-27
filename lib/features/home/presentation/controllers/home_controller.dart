@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../data/local/providers/preferences_helper.dart';
+import '../../../../core/utils/native_bridge.dart';
 
 class HomeController extends GetxController {
   final nameController = TextEditingController();
@@ -32,8 +33,11 @@ class HomeController extends GetxController {
 
     isSaving.value = true;
     
-    // Save to SharedPreferences
+    // Save to SharedPreferences (Flutter side)
     await PreferencesHelper.setDefaultCallerName(newName);
+    
+    // Sync to Native Android OS so background services can read it
+    await NativeBridge.syncGlobalName(newName);
     
     isSaving.value = false;
     
